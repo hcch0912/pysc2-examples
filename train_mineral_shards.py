@@ -19,6 +19,7 @@ import random
 
 import deepq_mineral_4way
 
+import deepq_mineral_shards_3players
 import threading
 import time
 
@@ -281,9 +282,9 @@ def deepq_3player_callback(locals, globals):
         print("delete last model file : %s" % last_filename)
 
       max_mean_reward = locals['mean_100ep_reward']
-      act_x = deepq_mineral_shards.ActWrapper(locals['act_x'])
-      act_y = deepq_mineral_shards.ActWrapper(locals['act_y'])
-      act_z = deepq_mineral_shards.ActWrapper(locals['act_z'])
+      act_x = deepq_mineral_shards_3players.ActWrapper(locals['act_x'])
+      act_y = deepq_mineral_shards_3players.ActWrapper(locals['act_y'])
+      act_z = deepq_mineral_shards_3players.ActWrapper(locals['act_z'])
 
       filename = os.path.join(
         PROJ_DIR,
@@ -293,6 +294,10 @@ def deepq_3player_callback(locals, globals):
         PROJ_DIR,
         'models/deepq_3player/mineral_y_%s.pkl' % locals['mean_100ep_reward'])
       act_y.save(filename)
+      filename = os.path.join(
+        PROJ_DIR,
+        'models/deepq_3player/mineral_y_%s.pkl' % locals['mean_100ep_reward'])
+      act_z.save(filename)
       print("save best mean_100ep_reward model to %s" % filename)
 
 
