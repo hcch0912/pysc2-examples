@@ -19,7 +19,7 @@ import random
 
 import deepq_mineral_4way
 
-import deepq_mineral_shards_3players
+
 import threading
 import time
 
@@ -132,35 +132,6 @@ def main():
         callback=deepq_callback)
       act.save("mineral_shards.pkl")
 
-  elif (FLAGS.algorithm == "deepq_3player"):
-
-    with sc2_env.SC2Env(
-        map_name="CollectMineralShards",
-        step_mul=step_mul,
-        visualize=True,
-        screen_size_px=(16, 16),
-        minimap_size_px=(16, 16)) as env:
-
-      model = deepq.models.cnn_to_mlp(
-        convs=[(16, 8, 4), (32, 4, 2)], hiddens=[256], dueling=True)
-
-      act = deepq_mineral_shards_3players.learn(
-        env,
-        q_func=model,
-        num_actions=16,
-        lr=FLAGS.lr,
-        max_timesteps=FLAGS.timesteps,
-        buffer_size=10000,
-        exploration_fraction=FLAGS.exploration_fraction,
-        exploration_final_eps=0.01,
-        train_freq=4,
-        learning_starts=10000,
-        target_network_update_freq=1000,
-        gamma=0.99,
-        prioritized_replay=True,
-        callback=deepq_3player_callback)
-      act.save("mineral_shards.pkl")
-
 
   elif (FLAGS.algorithm == "deepq-4way"):
 
@@ -257,48 +228,6 @@ def deepq_callback(locals, globals):
       act_y.save(filename)
       print("save best mean_100ep_reward model to %s" % filename)
       last_filename = filename
-
-def deepq_3player_callback(locals, globals):
-  #pprint.pprint(locals)
-  global max_mean_reward, last_filename
-  if ('done' in locals and locals['done'] == True):
-    if ('mean_100ep_reward' in locals and locals['num_episodes'] >= 10
-        and locals['mean_100ep_reward'] > max_mean_reward):
-      print("mean_100ep_reward : %s max_mean_reward : %s" %
-            (locals['mean_100ep_reward'], max_mean_reward))
-
-      if (not os.path.exists(os.path.join(PROJ_DIR, 'models/deepq_3player/'))):
-        try:
-          os.mkdir(os.path.join(PROJ_DIR, 'models/'))
-        except Exception as e:
-          print(str(e))
-        try:
-          os.mkdir(os.path.join(PROJ_DIR, 'models/deepq_3player/'))
-        except Exception as e:
-          print(str(e))
-
-      if (last_filename != ""):
-        os.remove(last_filename)
-        print("delete last model file : %s" % last_filename)
-
-      max_mean_reward = locals['mean_100ep_reward']
-      act_x = deepq_mineral_shards_3players.ActWrapper(locals['act_x'])
-      act_y = deepq_mineral_shards_3players.ActWrapper(locals['act_y'])
-      act_z = deepq_mineral_shards_3players.ActWrapper(locals['act_z'])
-
-      filename = os.path.join(
-        PROJ_DIR,
-        'models/deepq_3player/mineral_x_%s.pkl' % locals['mean_100ep_reward'])
-      act_x.save(filename)
-      filename = os.path.join(
-        PROJ_DIR,
-        'models/deepq_3player/mineral_y_%s.pkl' % locals['mean_100ep_reward'])
-      act_y.save(filename)
-      filename = os.path.join(
-        PROJ_DIR,
-        'models/deepq_3player/mineral_y_%s.pkl' % locals['mean_100ep_reward'])
-      act_z.save(filename)
-      print("save best mean_100ep_reward model to %s" % filename)
 
 
 def deepq_4way_callback(locals, globals):
