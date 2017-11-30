@@ -144,7 +144,7 @@ def main():
       model = deepq.models.cnn_to_mlp(
         convs=[(16, 8, 4), (32, 4, 2)], hiddens=[256], dueling=True)
 
-      act = deepq_mineral_shards.learn(
+      act = deepq_mineral_shards_3players.learn(
         env,
         q_func=model,
         num_actions=16,
