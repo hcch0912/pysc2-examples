@@ -15,8 +15,10 @@ from baselines.common.schedules import LinearSchedule
 from baselines import deepq
 from baselines.deepq.replay_buffer import ReplayBuffer, PrioritizedReplayBuffer
 
+print(sys.path)
 lib_path = os.path.abspath(os.path.join('~', 'pysc2-my'))
 sys.path.append(lib_path)
+print(sys.path)
 from pysc2.lib import actions as sc2_actions
 from pysc2.env import environment
 from pysc2.lib import features

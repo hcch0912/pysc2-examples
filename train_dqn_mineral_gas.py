@@ -34,7 +34,7 @@ _NOT_QUEUED = [0]
 step_mul = 8
 
 FLAGS = flags.FLAGS
-flags.DEFINE_string("map", "CollectMineralGas",
+flags.DEFINE_string("map", "CollectMineralShardsGas_3Player",
                     "Name of a map to use to play.")
 start_time = datetime.datetime.now().strftime("%Y%m%d%H%M")
 flags.DEFINE_string("log", "tensorboard", "logging type(stdout, tensorboard)")
@@ -105,7 +105,7 @@ def main():
   if (FLAGS.algorithm == "deepq"):
 
     with sc2_env.SC2Env(
-        map_name="CollectMineralGas",
+        map_name="CollectMineralShardsGas_3Player",
         step_mul=step_mul,
         visualize=True,
         screen_size_px=(16, 16),
@@ -135,7 +135,7 @@ def main():
   elif (FLAGS.algorithm == "deepq-4way"):
 
     with sc2_env.SC2Env(
-        map_name="CollectMineralGas",
+        map_name="CollectMineralShardsGas_3Player",
         step_mul=step_mul,
         screen_size_px=(32, 32),
         minimap_size_px=(32, 32),
