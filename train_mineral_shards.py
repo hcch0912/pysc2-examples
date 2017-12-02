@@ -3,8 +3,10 @@ import os
 
 from absl import flags
 from baselines import deepq
-from pysc2.env import sc2_env
-from pysc2.lib import actions
+# from pysc2.env import sc2_env
+# from pysc2.lib import actions
+import sys
+
 import os
 
 import deepq_mineral_shards
@@ -19,6 +21,10 @@ import random
 
 import deepq_mineral_4way
 
+lib_path = os.path.abspath(os.path.join('..', 'pysc2-my'))
+sys.path.append(lib_path)
+from pysc2.env import sc2_env
+from pysc2.lib import actions
 
 import threading
 import time
@@ -78,10 +84,6 @@ def main():
       FLAGS.algorithm, FLAGS.timesteps, FLAGS.exploration_fraction,
       FLAGS.prioritized, FLAGS.dueling, lr_round, start_time)
   elif (FLAGS.algorithm == "deepq"):
-    logdir = "tensorboard/mineral/%s/%s_%s_prio%s_duel%s_lr%s/%s" % (
-      FLAGS.algorithm, FLAGS.timesteps, FLAGS.exploration_fraction,
-      FLAGS.prioritized, FLAGS.dueling, lr_round, start_time)
-  elif (FLAGS.algorithm == "deepq_3player"):
     logdir = "tensorboard/mineral/%s/%s_%s_prio%s_duel%s_lr%s/%s" % (
       FLAGS.algorithm, FLAGS.timesteps, FLAGS.exploration_fraction,
       FLAGS.prioritized, FLAGS.dueling, lr_round, start_time)
