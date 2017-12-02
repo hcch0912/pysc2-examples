@@ -105,7 +105,7 @@ def main():
   if (FLAGS.algorithm == "deepq"):
 
     with sc2_env.SC2Env(
-        map_name="CollectMineralShardsGas_3player",
+        map_name="CollectMineralShardsGas_3Player",
         step_mul=step_mul,
         visualize=True,
         screen_size_px=(16, 16),
