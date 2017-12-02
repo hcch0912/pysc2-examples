@@ -3,6 +3,10 @@ import os
 
 from absl import flags
 from baselines import deepq
+
+lib_path = os.path.abspath(os.path.join('~', 'pysc2-my'))
+sys.path.append(lib_path)
+
 from pysc2.env import sc2_env
 from pysc2.lib import actions
 import os
